@@ -20,9 +20,8 @@ import java.util.logging.Logger;
 public class SDK {
     private static final Logger LOGGER = Logger.getLogger(SDK.class.getName());
     private static final ExecutorService executorService = Executors.newCachedThreadPool();
-    private static final int CONNECT_TIMEOUT = 5000; // 5 seconds
-    private static final int READ_TIMEOUT = 10000; // 10 seconds
-
+    private static final int CONNECT_TIMEOUT = 5000;
+    private static final int READ_TIMEOUT = 10000;
     private String API = "https://api.pay2ply.com/";
     private String token;
 
@@ -63,12 +62,10 @@ public class SDK {
                         }
                 };
 
-                // Configurar o SSLContext para usar o TrustManager que ignora as verificações
                 SSLContext sc = SSLContext.getInstance("SSL");
                 sc.init(null, trustAllCerts, new java.security.SecureRandom());
                 HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
 
-                // Ignorar a verificação do hostname
                 HostnameVerifier allHostsValid = (hostname, session) -> true;
 
                 HttpsURLConnection connection = (HttpsURLConnection) new URL(getAPI() + "plugin").openConnection();
@@ -85,7 +82,6 @@ public class SDK {
                 connection.connect();
 
                 int responseCode = connection.getResponseCode();
-                System.out.println("Response Code: " + responseCode);
 
                 if (responseCode >= 500) {
                     System.out.println("[Pay2Ply] A API da Pay2Ply encontra-se indisponível no momento.");
